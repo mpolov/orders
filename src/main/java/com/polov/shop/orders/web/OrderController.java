@@ -20,6 +20,7 @@ import com.polov.shop.orders.service.OrderService;
 import com.polov.shop.orders.web.resource.OrderResource;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -29,13 +30,18 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @Operation(summary = "Fetch order list")
+    @Operation(summary = "Fetch order list", responses = {
+            @ApiResponse(responseCode = "200", description = "Result returned"),
+            @ApiResponse(responseCode = "500", description = "Error processing the request") })
     @GetMapping
     public List<OrderResource> getOrders() {
         return orderService.getOrders();
     }
 
-    @Operation(summary = "Place order")
+    @Operation(summary = "Place order", responses = {
+            @ApiResponse(responseCode = "200", description = "Result of order placement. If order placed, nothing is returned. In case order is not placed due to missing quantity, id is null and order items are quantities of product, that are missing,"),
+            @ApiResponse(responseCode = "409", description = "Product is blocked by processing different order", content = {}),
+            @ApiResponse(responseCode = "500", description = "Error processing the request") })
     @PostMapping
     public Optional<OrderResource> placeOrder(@RequestBody OrderResource resource) {
         try {
@@ -46,7 +52,9 @@ public class OrderController {
 
     }
 
-    @Operation(summary = "Delete order")
+    @Operation(summary = "Delete order", responses = {
+            @ApiResponse(responseCode = "204", description = "Product removed"),
+            @ApiResponse(responseCode = "500", description = "Error processing the request") })
     @DeleteMapping(path = "/{orderId}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteOrder(@PathVariable Long orderId) {
