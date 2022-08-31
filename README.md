@@ -6,7 +6,11 @@ Key entities:
 * [Product](https://github.com/mpolov/orders/blob/main/src/main/java/com/polov/shop/orders/model/Product.java)
 * [Order](https://github.com/mpolov/orders/blob/main/src/main/java/com/polov/shop/orders/model/Order.java)
 
-Business logic implemented in the app is placed in [OrderService](https://github.com/mpolov/orders/blob/main/src/main/java/com/polov/shop/orders/service/OrderService.java)
+Business logic implemented in the app is placed in [OrderService](https://github.com/mpolov/orders/blob/main/src/main/java/com/polov/shop/orders/service/OrderService.java):
+* Place order (reserves quantities)
+* Get orders list
+* Delete order (return quantities)
+Quantities can be checked with product API calls.
 
 Developed in eclipse. Mapstruct used, an APT extension needed (e.g. m2e-apt, find it in eclipse marketplace).
 Should be compatible with other mainstream IDEs, just import maven project from SCM repo.
